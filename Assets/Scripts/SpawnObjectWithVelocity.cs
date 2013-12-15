@@ -3,6 +3,9 @@ using System.Collections;
 
 public class SpawnObjectWithVelocity : MonoBehaviour {
 
+	public delegate void StartGame();
+	public static event StartGame OnStartGame;
+
 	public Vector3 cannonVelocity = new Vector3(50,0,0);
 	public GameObject objectToSpawn;
 	private bool spawned = false;
@@ -20,6 +23,9 @@ public class SpawnObjectWithVelocity : MonoBehaviour {
 		GameObject newObject = Instantiate( objectToSpawn, this.gameObject.transform.position, Quaternion.identity ) as GameObject;
 		newObject.rigidbody.velocity = cannonVelocity;
 		spawned = true;
+		if( OnStartGame != null ) {
+			OnStartGame();
+		}
 	}
 
 }
