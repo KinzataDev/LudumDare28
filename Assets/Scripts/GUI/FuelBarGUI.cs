@@ -27,6 +27,8 @@ public class FuelBarGUI : MonoBehaviour {
 		FuelCanister.OnFuelUsed -= UpdateGUI;
 	}
 
+// The logic in here is not what I intended to have happen... but the emergent behvaior of the
+// fuel bar depleting in an odd way was really cool to see, so I left it.
 	void UpdateGUI(float fuel_left)
 	{
 		int bar_num = Mathf.FloorToInt((fuel_left / FuelCanister.INITIAL_FUEL) * bars.Length);
