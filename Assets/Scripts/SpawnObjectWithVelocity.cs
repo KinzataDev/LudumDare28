@@ -25,6 +25,7 @@ public class SpawnObjectWithVelocity : MonoBehaviour {
 		spawned = true;
 		if( OnStartGame != null ) {
 			OnStartGame();
+			gameObject.GetComponentInChildren<Camera>().enabled = false;
 		}
 	}
 
