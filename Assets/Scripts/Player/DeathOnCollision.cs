@@ -3,8 +3,23 @@ using System.Collections;
 
 public class DeathOnCollision : MonoBehaviour {
 
+	public delegate void Death();
+	public static event Death OnPlayerDeath;
+
 	void OnCollisionEnter(Collision hit) {
-		Destroy(gameObject);
+	
+		gameObject.GetComponentInChildren<MoveCameraWithMouse>().enabled = false;
+		StartCoroutine("End");
+	}
+
+	IEnumerator End() {
+
+		if( OnPlayerDeath != null )
+		{
+			OnPlayerDeath();
+		}
+		yield return new WaitForSeconds(3);
+		Application.LoadLevel("Menu");
 	}
 
 }
