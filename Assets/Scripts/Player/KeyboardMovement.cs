@@ -3,6 +3,9 @@ using System.Collections;
 
 public class KeyboardMovement : MonoBehaviour {
 
+	public delegate void PlayerMoved();
+	public static event PlayerMoved OnPlayerMoved;
+
 	public float base_force = 2.0f;
 	public float base_fuel_usage = 1.0f;
 
@@ -21,7 +24,8 @@ public class KeyboardMovement : MonoBehaviour {
 		float fuel_usage = base_fuel_usage;
 		float force = base_force;
 		Vector3 current_velocity = gameObject.rigidbody.velocity;
-		Debug.Log("Current Velocity: " + current_velocity );
+
+		bool has_moved = false;
 
 		bool expulsion = Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
 		if( expulsion ) {
@@ -34,6 +38,7 @@ public class KeyboardMovement : MonoBehaviour {
 			   && fuel.deplete(fuel_usage * delta) ) 
 			{
 				gameObject.rigidbody.AddForce(new Vector3(-force,0,0));
+				has_moved = true;
 			}
 		}
 		if( Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D) ) {
@@ -41,19 +46,26 @@ public class KeyboardMovement : MonoBehaviour {
 			   && fuel.deplete(fuel_usage * delta) ) 
 			{
 				gameObject.rigidbody.AddForce(new Vector3(force,0,0));
+				has_moved = true;
 			}
 		}
 		if( Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W) ) {
 			if(   current_velocity.y < max_y_velocity 
 			   && fuel.deplete(fuel_usage * delta) ) {
 				gameObject.rigidbody.AddForce(new Vector3(0,force,0));
+				has_moved = true;
 			}
 		}
 		if( Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S) ) {
 			if(   current_velocity.y > -max_y_velocity 
 			   && fuel.deplete(fuel_usage * delta) ) {
 				gameObject.rigidbody.AddForce(new Vector3(0,-force,0));
+				has_moved = true;
 			}
+		}
+
+		if( has_moved && OnPlayerMoved != null ) {
+			OnPlayerMoved();
 		}
 	}
 }
