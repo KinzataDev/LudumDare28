@@ -18,8 +18,8 @@ public class DeathOnCollision : MonoBehaviour {
 		{
 			OnPlayerDeath();
 		}
-		yield return new WaitForSeconds(3);
-		Application.LoadLevel("Menu");
+		yield return new WaitForSeconds(2);
+		GameObject.Find("FadeOutGUI").GetComponent<FadeOutScene>().FadeOut("Menu");
 	}
 
 }
