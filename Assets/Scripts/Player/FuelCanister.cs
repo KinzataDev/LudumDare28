@@ -33,4 +33,15 @@ public class FuelCanister : MonoBehaviour {
 		return true;
 	}
 
+	void ResetFuel() {
+		fuel = INITIAL_FUEL;
+	}
+
+	void OnEnable() {
+		SpawnObjectWithVelocity.OnStartGame += ResetFuel;
+	}
+	void OnDisable() {
+		SpawnObjectWithVelocity.OnStartGame -= ResetFuel;
+	}
+
 }
