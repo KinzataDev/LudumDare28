@@ -7,13 +7,16 @@ public class FuelBarGUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Rect rect = guiTexture.pixelInset;
-		float width = rect.width;
-		float offset = (width / (bars.Length + 1)) + 1.8f;
+		float offset = 1.0f / (bars.Length + 1);
 		for( int i=0; i < bars.Length; i++ ) {
-			Rect bar_rect = bars[i].guiTexture.pixelInset;
-			bar_rect.x = offset * (i+0.5f) - (width / 2);
-			bars[i].guiTexture.pixelInset = bar_rect;
+			Vector3 scale = Vector3.zero;
+			scale.x = 0.055f;
+			scale.y = 0.55f;
+			bars[i].transform.localScale = scale;
+
+			Vector3 position = Vector3.zero;
+			position.x = offset * (i+1f) - 0.5f;
+			bars[i].transform.localPosition = position;
 		}
 	}
 
